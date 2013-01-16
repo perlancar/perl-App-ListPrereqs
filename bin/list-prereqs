@@ -1,0 +1,69 @@
+#!/usr/bin/perl
+
+use 5.010;
+use strict;
+use warnings;
+
+use Perinci::CmdLine;
+
+BEGIN { our $Log_Level = 'info' } # be more verbose by default
+
+# VERSION
+
+Perinci::CmdLine->new(url => '/App/ListPrereqs/list_prereqs')->run;
+
+# ABSTRACT: List prerequisites of a Perl module
+# PODNAME: list-prereqs
+
+=head1 SYNOPSIS
+
+ % list-prereqs Moose
+ Package::DeprecationManager 0.11
+ Package::Stash::XS 0.24
+ Sub::Exporter 0.98
+ Params::Util 1
+ Task::Weaken 0
+ MRO::Compat 0.05
+ List::MoreUtils 0.28
+ Class::Load::XS 0.01
+ Try::Tiny 0.02
+ Eval::Closure 0.04
+ Class::Load 0.09
+ Package::Stash 0.32
+ Dist::CheckConflicts 0.02
+ Sub::Name 0.05
+ Data::OptList 0.107
+ Carp 1.22
+ Devel::GlobalDestruction 0
+
+List dependencies recursively:
+
+ % list-prereqs -r Moose
+ Package::DeprecationManager 0.11
+     Params::Util 0
+     Sub::Install 0
+     List::MoreUtils 0
+ Package::Stash::XS 0.24
+ Sub::Exporter 0.98
+     Data::OptList 0.1
+ Task::Weaken 0
+ MRO::Compat 0.05
+ Class::Load::XS 0.01
+     Class::Load 0.2
+         Try::Tiny 0
+         Package::Stash 0.14
+             Dist::CheckConflicts 0.02
+             Module::Implementation 0.06
+                 Module::Runtime 0.012
+ Eval::Closure 0.04
+ Sub::Name 0.05
+ Devel::GlobalDestruction 0
+     Sub::Exporter::Progressive 0.001002
+
+Can also return raw tree structure:
+
+ % list-prereqs --format=json -r Foo
+
+See L<App::ListPrereqs> for more details.
+
+=cut
