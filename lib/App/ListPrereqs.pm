@@ -82,12 +82,18 @@ sub list_prereqs {
 
         my @res;
 
-        my $modinfo = $chi->compute(
-            "$cp-mod-$mod", $ce, sub {
-                $log->infof("Querying MetaCPAN for module %s ...", $mod);
-                $mcpan->module($mod);
-            });
-        my $dist = $modinfo->{distribution};
+        # if it already looks like a dist, save an API call
+        my $dist;
+        if ($mod =~ /-/) {
+            $dist = $mod;
+        } else {
+            my $modinfo = $chi->compute(
+                "$cp-mod-$mod", $ce, sub {
+                    $log->infof("Querying MetaCPAN for module %s ...", $mod);
+                    $mcpan->module($mod);
+                });
+            $dist = $modinfo->{distribution};
+        }
 
         if ($mdist{$dist}++) {
             push @errs, "Circular dependency (dist=$dist)";
