@@ -49,7 +49,7 @@ _
 };
 sub list_prereqs {
     require CHI;
-    require MetaCPAN::API;
+    require MetaCPAN::Client;
     require Module::CoreList;
 
     my %args = @_;
@@ -62,7 +62,7 @@ sub list_prereqs {
     # '$cache' is ambiguous between args{cache} and CHI object
     my $chi = CHI->new(driver => "File");
 
-    my $mcpan = MetaCPAN::API->new;
+    my $mcpan = MetaCPAN::Client->new;
 
     my $cp = "list_prereqs"; # cache prefix
     my $ce = "24h"; # cache expire period
@@ -92,7 +92,7 @@ sub list_prereqs {
                     $log->infof("Querying MetaCPAN for module %s ...", $mod);
                     $mcpan->module($mod);
                 });
-            $dist = $modinfo->{distribution};
+            $dist = $modinfo->distribution;
         }
 
         if ($mdist{$dist}++) {
@@ -106,24 +106,24 @@ sub list_prereqs {
                 $mcpan->release(distribution => $dist);
             });
 
-        for my $dep (@{ $distinfo->{dependency} }) {
-            next unless $dep->{relationship} eq 'requires' &&
-                $dep->{phase} eq 'runtime';
-            next if $dep->{module} =~ /^(perl)$/;
-            next if $mmod{$dep->{module}}++;
+        for my $dep (@{ $distinfo->dependency }) {
+            next unless $dep->relationship eq 'requires' &&
+                $dep->phase eq 'runtime';
+            next if $dep->module =~ /^(perl)$/;
+            next if $mmod{$dep->module}++;
             my $v_in_core = Module::CoreList->first_release(
-                $dep->{module}, $dep->{version_numified});
+                $dep->module, $dep->version_numified);
             if ($v_in_core && $v_in_core <= $perl_v) {
                 $log->debugf("Module %s (%s) is already in core (perl %s), ".
                                  "skipped",
-                             $dep->{module}, $dep->{version_numified},
+                             $dep->module, $dep->version_numified,
                              $v_in_core);
                 next;
             }
 
             my $res = {
-                module=>$dep->{module},
-                version=>$dep->{version_numified},
+                module=>$dep->module,
+                version=>$dep->version_numified,
             };
             if ($recursive) {
                 $res->{prereqs} = [$do_list->(
