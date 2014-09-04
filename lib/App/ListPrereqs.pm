@@ -102,27 +102,27 @@ sub list_prereqs {
         my $distinfo = $chi->compute(
             "metacpan-dist-$dist", $ce, sub {
                 $log->infof("Querying MetaCPAN for dist %s ...", $dist);
-                $mcpan->release(distribution => $dist);
+                $mcpan->release($dist);
             });
 
         for my $dep (@{ $distinfo->dependency }) {
-            next unless $dep->relationship eq 'requires' &&
-                $dep->phase eq 'runtime';
-            next if $dep->module =~ /^(perl)$/;
-            next if $mmod{$dep->module}++;
+            next unless $dep->{relationship} eq 'requires' &&
+                $dep->{phase} eq 'runtime';
+            next if $dep->{module} =~ /^(perl)$/;
+            next if $mmod{$dep->{module}}++;
             my $v_in_core = Module::CoreList->first_release(
-                $dep->module, $dep->version_numified);
+                $dep->{module}, $dep->{version_numified});
             if ($v_in_core && $v_in_core <= $perl_v) {
                 $log->debugf("Module %s (%s) is already in core (perl %s), ".
                                  "skipped",
-                             $dep->module, $dep->version_numified,
+                             $dep->{module}, $dep->{version_numified},
                              $v_in_core);
                 next;
             }
 
             my $res = {
-                module=>$dep->module,
-                version=>$dep->version_numified,
+                module=>$dep->{module},
+                version=>$dep->{version_numified},
             };
             if ($recursive) {
                 $res->{prereqs} = [$do_list->(
