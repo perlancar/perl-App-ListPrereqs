@@ -64,7 +64,6 @@ sub list_prereqs {
 
     my $mcpan = MetaCPAN::Client->new;
 
-    my $cp = "list_prereqs"; # cache prefix
     my $ce = "24h"; # cache expire period
 
     my @errs;
@@ -88,7 +87,7 @@ sub list_prereqs {
             $dist = $mod;
         } else {
             my $modinfo = $chi->compute(
-                "$cp-mod-$mod", $ce, sub {
+                "metacpan-mod-$mod", $ce, sub {
                     $log->infof("Querying MetaCPAN for module %s ...", $mod);
                     $mcpan->module($mod);
                 });
@@ -101,7 +100,7 @@ sub list_prereqs {
         }
 
         my $distinfo = $chi->compute(
-            "$cp-dist-$dist", $ce, sub {
+            "metacpan-dist-$dist", $ce, sub {
                 $log->infof("Querying MetaCPAN for dist %s ...", $dist);
                 $mcpan->release(distribution => $dist);
             });
