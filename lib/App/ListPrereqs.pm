@@ -1,5 +1,8 @@
 package App::ListPrereqs;
 
+# DATE
+# VERSION
+
 use 5.010001;
 use strict;
 use warnings;
@@ -9,8 +12,6 @@ our %SPEC;
 require Exporter;
 our @ISA       = qw(Exporter);
 our @EXPORT_OK = qw(list_prereqs);
-
-# VERSION
 
 $SPEC{list_prereqs} = {
     v => 1.1,
@@ -155,7 +156,7 @@ sub list_prereqs {
 }
 
 1;
-#ABSTRACT: List prerequisites of a Perl module
+#ABSTRACT:
 
 =head1 SYNOPSIS
 
