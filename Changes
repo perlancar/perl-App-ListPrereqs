@@ -1,5 +1,12 @@
 Revision history for App-ListPrereqs
 
+0.05    2015-08-17 (PERLANCAR)
+
+	- No functional changes.
+
+	- Switch from Log::Any to Log::Any::IfLOG.
+
+
 0.04     2014-09-04 (PERLANCAR)
 
          - Adjust to new version of MetaCPAN::Client.
