@@ -1,4 +1,4 @@
-0.06    2015-09-03 (PERLANCAR)
+0.06    2015-09-03  Released-By: PERLANCAR
 
 	- No functional changes.
 
@@ -7,14 +7,14 @@
 	  requirement.
 
 
-0.05    2015-08-17 (PERLANCAR)
+0.05    2015-08-17  Released-By: PERLANCAR
 
 	- No functional changes.
 
 	- Switch from Log::Any to Log::Any::IfLOG.
 
 
-0.04     2014-09-04 (PERLANCAR)
+0.04     2014-09-04  Released-By: PERLANCAR
 
          - Adjust to new version of MetaCPAN::Client.
 
@@ -26,11 +26,11 @@
            generated script is not as polished as it should be. Stay tuned.
 
 
-0.02    2013-09-13 (SHARYANTO)
+0.02    2013-09-13  Released-By: SHARYANTO
 
         - Accept dist names too.
 
 
-0.01    2013-01-16 (SHARYANTO)
+0.01    2013-01-16  Released-By: SHARYANTO
 
         - First release.
