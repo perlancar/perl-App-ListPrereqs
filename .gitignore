@@ -2,3 +2,4 @@ App-ListPrereqs-*
 .build
 *~
 nytprof*
+.DS_Store
